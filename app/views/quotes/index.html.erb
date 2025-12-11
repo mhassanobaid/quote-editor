@@ -1,6 +1,8 @@
 <main class="container">
   <div class="header">
     <h1>Quotes</h1>
+    <%# link_to "New quote", new_quote_path, data: { turbo: false } This forces a full-page reload instead of Turbo Drive navigation AND thus causes more requests [ first of html, second of css, third of js, fourth of favicon ] thus decreasing performance and efficiency %>
+
     <%= link_to "New quote",
             new_quote_path,
             class: "btn btn--primary"

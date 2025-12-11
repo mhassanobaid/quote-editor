@@ -1,4 +1,6 @@
 <%= simple_form_for quote, html: { class: "quote form" } do |f| %>
+  <%# simple_form_for quote, html: { class: "quote form" }, data: { turbo: false } do |f| This forces a full-page reload instead of Turbo Drive navigation AND thus causes more requests [ first of html taking response with it, second of css, third of js, fourth of redirecting to index path, fifth of favicon icon ] thus decreasing performance and efficiency %>
+
   <% if quote.errors.any? %>
     <div class="error-message">
       <%= quote.errors.full_messages.to_sentence.capitalize %>

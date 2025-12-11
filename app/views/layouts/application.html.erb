@@ -6,6 +6,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%# built in property of "data-turbo-track": "reload" will help us in cases where we need to reload our full page whenever there is change in css, js of response and first time loaded css and js to handle improved user experience (if in new deployment of app there is changed css and js then reload is must so that latest changes apply to logged in users) %>
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
