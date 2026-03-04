@@ -1,4 +1,15 @@
-<%= turbo_frame_tag "quote_#{quote.id}" do %>
+<%# 
+  remember rails give us dom_id helper that generates model_name_id for us
+  if object not saved then give new_model_name and also we can add prefix as
+  dom_id(quote, 'prefix')
+  so it means we can write this line of 
+  turbo_frame_tag "quote_#{quote.id}" do
+  as 
+    turbo_frame_tag dom_id(quote) do
+  and best syntactic sugar part is
+    turbo_frame_tag quote do
+%>
+<%= turbo_frame_tag quote do %>
   <div class="quote">
     <%= link_to quote.name, quote_path(quote), data: { turbo_frame: "_top" } %>
 
