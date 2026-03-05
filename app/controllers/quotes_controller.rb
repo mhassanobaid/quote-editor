@@ -16,7 +16,10 @@ class QuotesController < ApplicationController
     @quote = Quote.new(quote_params)
 
     if @quote.save
-      redirect_to quotes_path, notice: "Quote was successfully created."
+      respond_to do |f|
+        f.html { redirect_to quotes_path, notice: "Quote was successfully created." }
+        f.turbo_stream
+      end
     else
       # fix to error of form responses be directed to anothre location
       render :new, status: :unprocessable_entity
