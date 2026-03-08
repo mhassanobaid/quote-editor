@@ -1,12 +1,19 @@
+<%# app/views/quotes/index.html.erb %>
+  <%# 
+  custom non-html element created in TJL (turbo javascript library)
+  having a unique id given as first attribute [in this case first_turbo_frame].
+  It intercepts links and form submissions and thus makes
+  the frame an independent piece of the web page.
+%>
 <main class="container">
   <div class="header">
     <h1>Quotes</h1>
-    <%# link_to "New quote", new_quote_path, data: { turbo: false } This forces a full-page reload instead of Turbo Drive navigation AND thus causes more requests [ first of html, second of css, third of js, fourth of favicon ] thus decreasing performance and efficiency %>
-
-    <%= link_to "New quote",
-            new_quote_path,
-            class: "btn btn--primary"
-              %>
+    <%= link_to "New quote", new_quote_path, data: {turbo_frame: dom_id(Quote.new)},class: "btn btn--primary" %>
   </div>
-  <%= render @quotes %>
+
+  <%= turbo_frame_tag Quote.new %>
+
+  <%= turbo_frame_tag "quotes" do %>
+    <%= render @quotes %>
+  <% end %>
 </main>

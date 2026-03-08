@@ -1,12 +1,36 @@
-<div class="quote">
-  <%= link_to quote.name, quote_path(quote) %>
-  <div class="quote__actions">
-    <%= button_to "Delete",
-                  quote_path(quote),
-                  method: :delete,
+<%# 
+  remember rails give us dom_id helper that generates model_name_id for us
+  if object not saved then give new_model_name and also we can add prefix as
+  dom_id(quote, 'prefix')
+  so it means we can write this line of 
+  turbo_frame_tag "quote_#{quote.id}" do
+  as 
+    turbo_frame_tag dom_id(quote) do
+  and best syntactic sugar part is
+    turbo_frame_tag quote do
+%>
+
+<%#
+  here turbo_frame: "top" in show is correct as it will change url to 
+  quotes/quote_id
+  but when we do same for destroy as 
+  form: { data: { turbo_frame: "_top" } },
+  then there is issue that unintended side effect of closing the form of edited form happens due to page reload so that's why we are ommiting form: { data: { turbo_frame: "_top" } }, in delete button
+%>
+
+<%= turbo_frame_tag quote do %>
+  <div class="quote">
+    <%= link_to quote.name,
+                quote_path(quote),
+                data: { turbo_frame: "_top" } %>
+    <div class="quote__actions">
+      <%= button_to "Delete",
+                    quote_path(quote),
+                    method: :delete,
+                    class: "btn btn--light" %>
+      <%= link_to "Edit",
+                  edit_quote_path(quote),
                   class: "btn btn--light" %>
-    <%= link_to "Edit",
-                edit_quote_path(quote),
-                class: "btn btn--light" %>
+    </div>
   </div>
-</div>
+<% end %>
