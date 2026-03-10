@@ -12,8 +12,13 @@ after_update_commit -> { broadcast_replace_to "quotes" }
 after_destroy_commit -> { broadcast_remove_to "quotes" }
 =end
 
+=begin
   after_create_commit -> { broadcast_prepend_later_to "quotes" }
   after_update_commit -> { broadcast_replace_later_to "quotes" }
   # destroy method of broadcast_remove_later_to not exists bcz it is not possible to perform job after quote is deleted
   after_destroy_commit -> { broadcast_remove_to "quotes" }
+=end
+
+  # The above three callbacks are equivalent to a single line of code. 
+  broadcasts_to ->(quote) { "quotes" }, inserts_by: :prepend
 end
