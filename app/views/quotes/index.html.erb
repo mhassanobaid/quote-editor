@@ -5,6 +5,15 @@
   It intercepts links and form submissions and thus makes
   the frame an independent piece of the web page.
 %>
+<%= turbo_stream_from "quotes" %>
+<%# above code generates 
+a custom element named
+<turbo-cable-stream-source
+  channel="Turbo::StreamsChannel"
+  signed-stream-name="very-long-string for security"
+>
+</turbo-cable-stream-source>
+%>
 <main class="container">
   <div class="header">
     <h1>Quotes</h1>
