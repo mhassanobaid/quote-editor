@@ -21,4 +21,6 @@ after_destroy_commit -> { broadcast_remove_to "quotes" }
 
   # The above three callbacks are equivalent to a single line of code. 
   broadcasts_to ->(quote) { "quotes" }, inserts_by: :prepend
+
+  belongs_to :company
 end
