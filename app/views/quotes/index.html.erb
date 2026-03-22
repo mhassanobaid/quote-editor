@@ -23,6 +23,7 @@ a custom element named
   <%= turbo_frame_tag Quote.new %>
 
   <%= turbo_frame_tag "quotes" do %>
+    <%= render "quotes/empty_state" %>
     <%= render @quotes %>
   <% end %>
 </main>
