@@ -1,0 +1,5 @@
+<%= turbo_stream.remove @line_item_date do %>
+  <%= render @line_item_date, quote: @quote %>
+<% end %>
+
+<%= render_turbo_stream_flash_messages %>
