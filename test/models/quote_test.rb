@@ -1,7 +1,7 @@
 require "test_helper"
 
 class QuoteTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "#total_price returns the total price of the quote" do
+    assert_equal 2500, quotes(:first).total_price
+  end
 end
