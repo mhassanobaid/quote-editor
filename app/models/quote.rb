@@ -29,4 +29,12 @@ after_destroy_commit -> { broadcast_remove_to "quotes" }
   def total_price
     line_items.sum(&:total_price)
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["id", "name", "created_at", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["company", "line_item_dates", "line_items"]
+  end
 end

@@ -10,4 +10,16 @@ class LineItem < ApplicationRecord
   def total_price
     quantity * unit_price
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["id", "name", "description", "quantity", "unit_price", "created_at", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["line_item_date"]
+  end
+
+  def to_s
+    "#{quote.name} - #{date}"
+  end
 end

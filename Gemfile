@@ -74,3 +74,7 @@ group :test do
 end
 
 gem "standard", "~> 1.52"
+
+gem "activeadmin", "~> 3.5"
+
+gem 'sassc-rails'
