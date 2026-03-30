@@ -78,3 +78,9 @@ gem "standard", "~> 1.52"
 gem "activeadmin", "~> 3.5"
 
 gem 'sassc-rails'
+
+gem 'chartkick'
+
+gem 'groupdate'
+
+gem 'chart-js-rails'
