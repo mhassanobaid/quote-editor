@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "/up", to: proc { [200, {}, ["OK"]] }
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   root to: "pages#home"
