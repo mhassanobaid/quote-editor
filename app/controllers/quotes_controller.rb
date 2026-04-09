@@ -49,6 +49,37 @@ class QuotesController < ApplicationController
     end
   end
 
+  def generate_pdf
+    company = current_company
+
+    company.update!(pdf_status: "pending")
+
+    GeneratePdfJob.perform_later(company.id)
+
+    render json: { status: "started" }
+  end
+
+  def pdf_status
+    company = current_company
+
+    if company.pdf_status == "completed" && company.pdf_url.present?
+      s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
+      obj = s3.bucket(ENV['AWS_BUCKET']).object(company.pdf_url)
+
+      # Generate presigned URL (valid for 5 minutes)
+      url = obj.presigned_url(:get, expires_in: 300)
+
+      render json: {
+        status: "completed",
+        url: url
+      }
+    else
+      render json: {
+        status: company.pdf_status
+      }
+    end
+  end
+
   private
 
   def set_quote

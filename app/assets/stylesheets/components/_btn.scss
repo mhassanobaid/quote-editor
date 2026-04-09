@@ -72,4 +72,16 @@
       color: var(--color-white);
     }
   }
+
+  &--danger {
+    background-color: --color-primary;
+    color: --color-white;
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+      background-color: #b91c1c;
+    }
+  }
 }

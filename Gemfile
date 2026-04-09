@@ -84,3 +84,13 @@ gem 'chartkick'
 gem 'groupdate'
 
 gem 'chart-js-rails'
+
+gem 'sidekiq'
+
+gem 'prawn'
+
+gem "prawn-table"
+
+gem 'dotenv-rails', groups: [:development, :test]
+
+gem 'aws-sdk-s3', require: false

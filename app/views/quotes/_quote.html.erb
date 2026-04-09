@@ -24,7 +24,7 @@
                 quote_path(quote),
                 data: { turbo_frame: "_top" } %>
     <div class="quote__actions">
-      <% if current_user.admin? %>
+      <%# <% if current_user.admin? %> %>
         <%= button_to "Delete",
                       quote_path(quote),
                       method: :delete,
@@ -32,7 +32,7 @@
         <%= link_to "Edit",
                     edit_quote_path(quote),
                     class: "btn btn--light" %>
-      <% end %>
+      <%# <% end %> %>
     </div>
   </div>
 <% end %>

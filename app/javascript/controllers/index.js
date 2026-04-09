@@ -5,4 +5,6 @@
 import { application } from "./application"
 
 import RemovalsController from "./removals_controller"
+import PdfController from "./pdf_controller"
 application.register("removals", RemovalsController)
+application.register("pdf", PdfController)

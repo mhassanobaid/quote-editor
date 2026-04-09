@@ -6,12 +6,12 @@
       <%= @quote.name %>
     </h1>
 
-    <% if current_user.admin? %>
+    <%# <% if current_user.admin? %> %>
       <%= link_to "New date",
                   new_quote_line_item_date_path(@quote),
                   data: {turbo_frame: dom_id(LineItemDate.new)},
                   class: "btn btn--primary" %>
-    <% end %>
+    <%# <% end %> %>
   </div>
 
   <%= turbo_frame_tag LineItemDate.new %>

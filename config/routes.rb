@@ -5,9 +5,14 @@ Rails.application.routes.draw do
   root to: "pages#home"
   devise_for :users
 
+  get "quotes/pdf_status", to: "quotes#pdf_status"
   resources :quotes do
     resources :line_item_dates, except: [:index, :show] do
       resources :line_items, except: [:index, :show]
+    end
+    collection do
+      post :generate_pdf
+      get :pdf_status
     end
   end
 end

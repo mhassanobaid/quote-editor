@@ -6,7 +6,7 @@
           <%= l(line_item_date.date, format: :long) %>
         </h2>
 
-          <% if current_user.admin? %>
+          <%# <% if current_user.admin? %> %>
             <div class="line-item-date__actions">
               <%= button_to "Delete",
                             [quote, line_item_date],
@@ -17,7 +17,7 @@
                           [:edit, quote, line_item_date],
                           class: "btn btn--light" %>
             </div>
-          <% end %>
+          <%# <% end %> %>
       </div>
     <% end %>
 
@@ -35,14 +35,14 @@
 
       <%= turbo_frame_tag nested_dom_id(line_item_date, LineItem.new) %>
 
-      <% if current_user.admin? %>
+      <%# <% if current_user.admin? %> %>
         <div class="line-item-date__footer">
           <%= link_to "Add item",
                       [:new, quote, line_item_date, :line_item],
                       data: { turbo_frame: nested_dom_id(line_item_date, LineItem.new) },
                       class: "btn btn--primary" %>
         </div>
-      <% end %>
+      <%# <% end %> %>
     </div>
 
   </div>

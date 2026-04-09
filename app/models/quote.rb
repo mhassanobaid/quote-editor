@@ -26,6 +26,13 @@ after_destroy_commit -> { broadcast_remove_to "quotes" }
   has_many :line_item_dates, dependent: :destroy
   has_many :line_items, through: :line_item_dates
 
+  enum pdf_status: {
+    pending: "pending",
+    processing: "processing",
+    completed: "completed",
+    failed: "failed"
+  }
+
   def total_price
     line_items.sum(&:total_price)
   end

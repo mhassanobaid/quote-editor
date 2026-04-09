@@ -17,7 +17,7 @@
     <div class="line-item__price">
       <%= number_to_currency line_item.unit_price %>
     </div>
-    <% if current_user.admin? %>
+    <%# <% if current_user.admin? %> %>
       <div class="line-item__actions">
         <%= button_to "Delete",
                       [quote, line_item_date, line_item],
@@ -27,6 +27,6 @@
                     [:edit, quote, line_item_date, line_item],
                     class: "btn btn--light" %>
       </div>
-    <% end %>
+    <%# <% end %> %>
   </div>
 <% end %>

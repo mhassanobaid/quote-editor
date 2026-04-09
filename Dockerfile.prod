@@ -1,0 +1,63 @@
+# ---- Build Stage ----
+FROM ruby:3.2.2 AS builder
+
+RUN apt-get update -qq && apt-get install -y \
+  build-essential \
+  libpq-dev \
+  nodejs \
+  npm \
+  netcat-openbsd
+
+# enable yarn properly
+RUN npm install -g yarn esbuild
+
+WORKDIR /app
+
+# Install Ruby gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle config set without 'development' 'test' && bundle install
+
+# Install JS dependencies FIRST
+COPY package.json yarn.lock ./
+RUN yarn install
+
+# Now copy the full app
+COPY . .
+
+# BUILD JS (THIS WAS MISSING)
+RUN yarn build
+
+# (optional but recommended)
+RUN yarn build:css
+
+# Build JS + CSS + Precompile assets
+ENV RAILS_ENV=production
+ENV NODE_ENV=production
+ENV SECRET_KEY_BASE=dummy
+
+RUN bundle exec rails assets:precompile
+
+# ---- Final Stage ----
+FROM ruby:3.2.2
+
+RUN apt-get update -qq && apt-get install -y \
+  libpq-dev \
+  nodejs \
+  npm \
+  netcat-openbsd
+
+WORKDIR /app
+
+# Copy only needed files from builder
+COPY --from=builder /app /app
+
+# ensure gems are available
+RUN bundle config set without 'development' 'test' && bundle install
+
+ENV RAILS_ENV=production
+
+EXPOSE 3000
+
+COPY wait-for-db.sh /wait-for-db.sh
+RUN chmod +x /wait-for-db.sh
+CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"]
