@@ -1,10 +1,7 @@
 
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
-    image: quote-editor-prod
+    image: 343218204168.dkr.ecr.ap-south-1.amazonaws.com/quote-editor-prod:latest
     container_name: rails_app
     restart: always
     env_file:
@@ -31,15 +28,9 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - web
-  redis:
-    image: redis:7
-    ports:
-      - "6379:6379"
 
   sidekiq:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
+    image: 343218204168.dkr.ecr.ap-south-1.amazonaws.com/quote-editor-prod:latest
     container_name: sidekiq_worker
     environment:
       RAILS_ENV: production

@@ -48,11 +48,10 @@ RUN apt-get update -qq && apt-get install -y \
 
 WORKDIR /app
 
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+
 # Copy only needed files from builder
 COPY --from=builder /app /app
-
-# ensure gems are available
-RUN bundle config set without 'development' 'test' && bundle install
 
 ENV RAILS_ENV=production
 
