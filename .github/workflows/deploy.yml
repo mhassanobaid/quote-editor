@@ -45,13 +45,12 @@ jobs:
         run: |
           docker build --no-cache -f Dockerfile.prod \
             --build-arg SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }} \
-            -t $ECR_REPOSITORY:$IMAGE_TAG .
+            -t ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG .
 
       # 6. Push to ECR
       - name: Push Docker image
         run: |
-          docker push \
-          ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
       # 7. Trigger ASG refresh (DEPLOY 🚀)
       - name: Trigger ASG Instance Refresh
