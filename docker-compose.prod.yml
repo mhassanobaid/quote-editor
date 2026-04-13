@@ -19,15 +19,6 @@ services:
         rm -f tmp/pids/server.pid &&
         bundle exec rails s -b 0.0.0.0 -e production
       "
-  nginx:
-    image: nginx:latest
-    container_name: nginx_server
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - web
 
   sidekiq:
     image: 343218204168.dkr.ecr.ap-south-1.amazonaws.com/quote-editor-prod:latest

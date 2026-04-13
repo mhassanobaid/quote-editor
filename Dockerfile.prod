@@ -33,7 +33,8 @@ RUN yarn build:css
 # Build JS + CSS + Precompile assets
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
-ENV SECRET_KEY_BASE=dummy
+ARG SECRET_KEY_BASE
+ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
 
 RUN bundle exec rails assets:precompile
 
