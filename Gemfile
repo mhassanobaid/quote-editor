@@ -94,3 +94,5 @@ gem "prawn-table"
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'aws-sdk-s3', require: false
+
+gem "pundit"

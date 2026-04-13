@@ -17,31 +17,31 @@ a custom element named
 <main class="container">
   <div class="header">
     <h1>Quotes</h1>
-    <%# <% if current_user.admin? %> %>
-      <%= link_to "New quote", new_quote_path, data: {turbo_frame: dom_id(Quote.new)},class: "btn btn--primary" %>
-      <div 
-        data-controller="pdf"
-        data-pdf-url-value="<%= generate_pdf_quotes_path %>"
-        data-pdf-status-url-value="<%= pdf_status_quotes_path %>"
-      >
-        <button data-pdf-target="button" data-action="click->pdf#generate">
-          Generate PDF
-        </button>
-
-        <p data-pdf-target="status"></p>
-
-        <a 
-          data-pdf-target="link" 
-          data-action="click->pdf#downloaded" 
-          data-turbo="false"
-          class="hidden" 
-          target="_blank"
-          rel="noopener noreferrer"
+      <% if policy(Quote).create? %>
+        <%= link_to "New quote", new_quote_path, data: {turbo_frame: dom_id(Quote.new)},class: "btn btn--primary" %>
+        <div 
+          data-controller="pdf"
+          data-pdf-url-value="<%= generate_pdf_quotes_path %>"
+          data-pdf-status-url-value="<%= pdf_status_quotes_path %>"
         >
-          Download PDF
-        </a>
-      </div>
-    <%# <% end %> %>
+          <button data-pdf-target="button" data-action="click->pdf#generate">
+            Generate PDF
+          </button>
+
+          <p data-pdf-target="status"></p>
+
+          <a 
+            data-pdf-target="link" 
+            data-action="click->pdf#downloaded" 
+            data-turbo="false"
+            class="hidden" 
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download PDF
+          </a>
+        </div>
+      <% end %>
   </div>
 
   <%= turbo_frame_tag Quote.new %>

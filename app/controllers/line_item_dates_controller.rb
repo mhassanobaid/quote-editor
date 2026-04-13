@@ -4,10 +4,12 @@ class LineItemDatesController < ApplicationController
 
   def new
     @line_item_date = @quote.line_item_dates.build
+    authorize @line_item_date
   end
 
   def create
     @line_item_date = @quote.line_item_dates.build(line_item_date_params)
+    authorize @line_item_date
 
     if @line_item_date.save
       # redirect_to quote_path(@quote), notice: "Date was successfully created."
@@ -21,9 +23,12 @@ class LineItemDatesController < ApplicationController
   end
 
   def edit
+    authorize @line_item_date
   end
 
   def update
+    authorize @line_item_date
+
     if @line_item_date.update(line_item_date_params)
       respond_to do |f|
         f.html { redirect_to quote_path(@quote), notice: "Date was successfully updated." }
@@ -35,6 +40,8 @@ class LineItemDatesController < ApplicationController
   end
 
   def destroy
+    authorize @line_item_date
+
     @line_item_date.destroy
 
     respond_to do |f|

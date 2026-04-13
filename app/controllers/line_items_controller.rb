@@ -5,10 +5,12 @@ class LineItemsController < ApplicationController
 
   def new
     @line_item = @line_item_date.line_items.build
+    authorize @line_item
   end
 
   def create
     @line_item = @line_item_date.line_items.build(line_item_params)
+    authorize @line_item
 
     if @line_item.save
       respond_to do |f|
@@ -21,9 +23,12 @@ class LineItemsController < ApplicationController
   end
 
   def edit
+    authorize @line_item
   end
 
   def update
+    authorize @line_item
+
     if @line_item.update(line_item_params)
       respond_to do |f|
         f.html { redirect_to quote_path(@quote), notice: "Item was successfully updated." }
@@ -35,6 +40,8 @@ class LineItemsController < ApplicationController
   end
 
   def destroy
+    authorize @line_item
+
     @line_item.destroy
 
     respond_to do |format|

@@ -2,19 +2,23 @@ class QuotesController < ApplicationController
   before_action :set_quote, only: [:show, :edit, :update, :destroy]
 
   def index
-    @quotes = current_company.quotes.ordered
+    @quotes = policy_scope(Quote).ordered
   end
 
   def show
+    authorize @quote
+
     @line_item_dates = @quote.line_item_dates.includes(:line_items).ordered
   end
 
   def new
     @quote = Quote.new
+    authorize @quote
   end
 
   def create
     @quote = current_company.quotes.build(quote_params)
+    authorize @quote
 
     if @quote.save
       respond_to do |f|
@@ -28,9 +32,12 @@ class QuotesController < ApplicationController
   end
 
   def edit
+    authorize @quote
   end
 
   def update
+    authorize @quote
+
     if @quote.update(quote_params)
       respond_to do |format|
         format.html { redirect_to quotes_path, notice: "Quote was successfully updated." }
@@ -42,6 +49,8 @@ class QuotesController < ApplicationController
   end
 
   def destroy
+    authorize @quote
+
     @quote.destroy
     respond_to do |format|
       format.html { redirect_to quotes_path, notice: "Quote was successfully destroyed." }
