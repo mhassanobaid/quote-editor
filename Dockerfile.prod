@@ -9,15 +9,16 @@ RUN apt-get update -qq && apt-get install -y \
   npm \
   netcat-openbsd
 
-# Install yarn + esbuild globally
+# Install yarn + esbuild
 RUN npm install -g yarn esbuild
 
 WORKDIR /app
 
-# Set environment early
+# Set environment
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
 
+# Dummy key for asset precompile
 ARG SECRET_KEY_BASE
 ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
 
@@ -29,32 +30,38 @@ RUN bundle config set without 'development test' \
   && bundle install
 
 # -------------------------
-# 2. Copy FULL app FIRST (IMPORTANT FIX)
+# 2. Copy FULL app
 # -------------------------
 COPY . .
 
 # -------------------------
-# 3. Install JS dependencies (AFTER full copy)
+# 3. Install JS dependencies
 # -------------------------
 RUN yarn install --frozen-lockfile
+
+# Ensure builds directory exists
+RUN mkdir -p app/assets/builds
 
 # -------------------------
 # 4. Build JS + CSS
 # -------------------------
-RUN yarn build
-RUN yarn build:css
+RUN yarn build && yarn build:css
+
+# Debug JS/CSS output (FAIL if empty)
+RUN ls -la app/assets/builds
 
 # -------------------------
 # 5. Precompile Rails assets
 # -------------------------
-RUN bundle exec rails assets:precompile
+RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
 
-# Debug (optional but useful)
+# Debug compiled assets (FAIL if missing)
 RUN ls -la public/assets
 
 # ---- Final Stage ----
 FROM ruby:3.2.2
 
+# Install runtime dependencies
 RUN apt-get update -qq && apt-get install -y \
   libpq-dev \
   nodejs \
@@ -67,12 +74,14 @@ ENV RAILS_ENV=production
 # Copy gems
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 
-# Copy app with precompiled assets
+# Copy full app (with compiled assets)
 COPY --from=builder /app /app
 
 EXPOSE 3000
 
+# Wait script
 COPY wait-for-db.sh /wait-for-db.sh
 RUN chmod +x /wait-for-db.sh
 
+# Start server
 CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"]
