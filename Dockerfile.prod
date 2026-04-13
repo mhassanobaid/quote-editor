@@ -34,7 +34,7 @@ ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
 # BUILD JS (THIS WAS MISSING)
 RUN yarn build && yarn build:css
 
-RUN bundle exec rails assets:precompile
+RUN bundle exec rails assets:precompile && ls -la public/assets
 
 # ---- Final Stage ----
 FROM ruby:3.2.2

@@ -36,7 +36,7 @@ jobs:
       # 4. Build Docker image
       - name: Build Docker image
         run: |
-          docker build \
+          docker build --no-cache \
             --build-arg SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }} \
             -t $ECR_REPOSITORY:$IMAGE_TAG .
 
