@@ -1,6 +1,7 @@
 # ---- Build Stage ----
 FROM ruby:3.2.2 AS builder
 
+# Install system dependencies
 RUN apt-get update -qq && apt-get install -y \
   build-essential \
   libpq-dev \
@@ -8,50 +9,66 @@ RUN apt-get update -qq && apt-get install -y \
   npm \
   netcat-openbsd
 
-# install yarn + esbuild
+# Install yarn + esbuild globally
 RUN npm install -g yarn esbuild
 
 WORKDIR /app
 
-# Install Ruby gems
-COPY Gemfile Gemfile.lock ./
-RUN bundle config set without 'development' 'test' && bundle install
-
-# Install JS deps
-COPY package.json yarn.lock ./
-RUN yarn install
-
-# Now copy the full app
-COPY . .
-
-# Build JS + CSS + Precompile assets
+# Set environment early
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
 
 ARG SECRET_KEY_BASE
 ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
 
-# BUILD JS (THIS WAS MISSING)
-RUN yarn build && yarn build:css
+# -------------------------
+# 1. Install Ruby gems
+# -------------------------
+COPY Gemfile Gemfile.lock ./
+RUN bundle config set without 'development test' \
+  && bundle install
 
-RUN bundle exec rails assets:precompile && ls -la public/assets
+# -------------------------
+# 2. Copy FULL app FIRST (IMPORTANT FIX)
+# -------------------------
+COPY . .
+
+# -------------------------
+# 3. Install JS dependencies (AFTER full copy)
+# -------------------------
+RUN yarn install --frozen-lockfile
+
+# -------------------------
+# 4. Build JS + CSS
+# -------------------------
+RUN yarn build
+RUN yarn build:css
+
+# -------------------------
+# 5. Precompile Rails assets
+# -------------------------
+RUN bundle exec rails assets:precompile
+
+# Debug (optional but useful)
+RUN ls -la public/assets
 
 # ---- Final Stage ----
 FROM ruby:3.2.2
 
 RUN apt-get update -qq && apt-get install -y \
   libpq-dev \
+  nodejs \
   netcat-openbsd
 
 WORKDIR /app
 
+ENV RAILS_ENV=production
+
 # Copy gems
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 
-# Copy app WITH precompiled assets
+# Copy app with precompiled assets
 COPY --from=builder /app /app
-
-ENV RAILS_ENV=production
 
 EXPOSE 3000
 
