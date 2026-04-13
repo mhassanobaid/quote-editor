@@ -9,7 +9,7 @@ env:
   AWS_REGION: ap-south-1
   ECR_REPOSITORY: quote-editor-prod
   IMAGE_TAG: latest
-  ASG_NAME: quote-editor-docker-template-asg
+  ASG_NAME: quote-editor-dockerised-asg
 
 jobs:
   deploy:
