@@ -53,7 +53,7 @@ RUN ls -la app/assets/builds
 # -------------------------
 # 5. Precompile Rails assets
 # -------------------------
-RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
+RUN RAILS_ENV=production SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
 
 # Debug compiled assets (FAIL if missing)
 RUN ls -la public/assets
