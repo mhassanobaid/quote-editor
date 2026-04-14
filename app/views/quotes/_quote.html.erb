@@ -24,13 +24,13 @@
                 quote_path(quote),
                 data: { turbo_frame: "_top" } %>
     <div class="quote__actions">
-      <% if policy(quote).destroy? %>
+      <% if defined?(current_user) && current_user && policy(quote).destroy? %>
         <%= button_to "Delete",
                       quote_path(quote),
                       method: :delete,
                       class: "btn btn--light" %>
       <% end %>
-      <% if policy(quote).edit? %>
+      <% if defined?(current_user) && current_user && policy(quote).edit? %>
         <%= link_to "Edit",
                     edit_quote_path(quote),
                     class: "btn btn--light" %>

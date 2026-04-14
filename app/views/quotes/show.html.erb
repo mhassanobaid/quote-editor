@@ -6,7 +6,7 @@
       <%= @quote.name %>
     </h1>
 
-    <% if policy(LineItemDate).create? %>
+    <% if defined?(current_user) && current_user && policy(LineItemDate).create? %>
       <%= link_to "New date",
                   new_quote_line_item_date_path(@quote),
                   data: {turbo_frame: dom_id(LineItemDate.new)},

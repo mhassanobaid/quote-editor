@@ -7,14 +7,14 @@
         </h2>
 
             <div class="line-item-date__actions">
-              <% if policy(LineItemDate).destroy? %>
+              <% if defined?(current_user) && current_user && policy(LineItemDate).destroy? %>
                 <%= button_to "Delete",
                               [quote, line_item_date],
                               method: :delete,
                               form: { data: { turbo_confirm: "Are you sure?" } },
                               class: "btn btn--light" %>
               <% end %>
-              <% if policy(LineItemDate).edit? %>   
+              <% if defined?(current_user) && current_user && policy(LineItemDate).edit? %>
                 <%= link_to "Edit",
                           [:edit, quote, line_item_date],
                           class: "btn btn--light" %>
@@ -37,7 +37,7 @@
 
       <%= turbo_frame_tag nested_dom_id(line_item_date, LineItem.new) %>
 
-      <% if policy(LineItem).create? %>
+      <% if defined?(current_user) && current_user && policy(LineItem).create? %>
         <div class="line-item-date__footer">
           <%= link_to "Add item",
                       [:new, quote, line_item_date, :line_item],

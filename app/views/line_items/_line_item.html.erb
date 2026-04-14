@@ -19,13 +19,13 @@
     </div>
     <%# <% if current_user.admin? %> %>
       <div class="line-item__actions">
-        <% if policy(LineItem).destroy? %>
+        <% if defined?(current_user) && current_user && policy(LineItem).destroy? %>
           <%= button_to "Delete",
                         [quote, line_item_date, line_item],
                         method: :delete,
                         class: "btn btn--light" %>
         <% end %>
-        <% if policy(LineItem).edit? %>
+        <% if defined?(current_user) && current_user && policy(LineItem).edit? %>
           <%= link_to "Edit",
                       [:edit, quote, line_item_date, line_item],
                       class: "btn btn--light" %>
