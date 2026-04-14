@@ -1,4 +1,5 @@
 class QuotesController < ApplicationController
+  skip_after_action :verify_authorized, only: [:generate_pdf, :pdf_status]
   before_action :set_quote, only: [:show, :edit, :update, :destroy]
 
   def index
