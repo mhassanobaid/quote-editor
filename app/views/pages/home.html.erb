@@ -2,7 +2,9 @@
 
 <main class="container">
   <h1>Quote editor Live</h1>
-  <p>A blazing fast quote editor built with Hotwire</p>
+  <p>
+    A blazing-fast quote editor built with Hotwire, deployed on AWS, and powered by a Dockerized CI/CD pipeline.
+  </p>
 
   <% if user_signed_in? %>
     <%= link_to "View quotes", quotes_path, class: "btn btn--dark" %>
