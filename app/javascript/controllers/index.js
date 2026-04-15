@@ -6,5 +6,8 @@ import { application } from "./application"
 
 import RemovalsController from "./removals_controller"
 import PdfController from "./pdf_controller"
+import QuoteActionsController from "./quote_actions_controller"
+
+application.register("quote-actions", QuoteActionsController)
 application.register("removals", RemovalsController)
 application.register("pdf", PdfController)

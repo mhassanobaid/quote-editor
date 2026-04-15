@@ -14,5 +14,8 @@ Rails.application.routes.draw do
       post :generate_pdf
       get :pdf_status
     end
+    member do
+      get :actions
+    end
   end
 end

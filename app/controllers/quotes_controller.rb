@@ -90,6 +90,11 @@ class QuotesController < ApplicationController
     end
   end
 
+  def actions
+    @quote = Quote.find(params[:id])
+    render partial: "quotes/quote_actions", locals: { quote: @quote }
+  end
+
   private
 
   def set_quote
