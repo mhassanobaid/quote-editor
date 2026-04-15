@@ -26,6 +26,10 @@ after_destroy_commit -> { broadcast_remove_to "quotes" }
   has_many :line_item_dates, dependent: :destroy
   has_many :line_items, through: :line_item_dates
 
+  after_create_commit do
+    Rails.logger.info "🔥 BROADCAST WORKING"
+  end
+
   enum pdf_status: {
     pending: "pending",
     processing: "processing",
