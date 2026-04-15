@@ -1,5 +1,5 @@
 class QuotesController < ApplicationController
-  skip_after_action :verify_authorized, only: [:generate_pdf, :pdf_status]
+  skip_after_action :verify_authorized, only: [:generate_pdf, :pdf_status, :actions]
   before_action :set_quote, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -92,6 +92,7 @@ class QuotesController < ApplicationController
 
   def actions
     @quote = Quote.find(params[:id])
+    authorize @quote
     render partial: "quotes/quote_actions", locals: { quote: @quote }
   end
 
