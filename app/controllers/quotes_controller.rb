@@ -92,7 +92,6 @@ class QuotesController < ApplicationController
 
   def actions
     @quote = Quote.find(params[:id])
-    authorize @quote
     render partial: "quotes/quote_actions", locals: { quote: @quote }
   end
 
